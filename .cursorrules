@@ -1,0 +1,212 @@
+# TrueNorth - Cursor Rules
+
+## Project Context
+TrueNorth is a direction-first productivity app for iOS, built with calm and clarity as core values.
+
+# Project Standards
+
+## Tech Stack
+- **Framework:** Expo (React Native) with TypeScript
+- **Routing:** expo-router (file-based)
+- **Styling:** NativeWind v4 (Tailwind syntax for React Native)
+- **Backend:** Supabase (PostgreSQL, Auth, Realtime)
+- **State:** Zustand (UI), React Query (server state)
+- **Testing:** Jest + React Native Testing Library (unit/component), Maestro (E2E)
+- **Icons:** lucide-react-native
+- **Utilities:** date-fns, zod, react-native-reanimated
+
+## Code Style
+- **TypeScript:** Strict mode enabled, no `any` types
+- **Naming:** 
+  - Components: PascalCase (`TodaysBearing.tsx`)
+  - Hooks: camelCase with `use` prefix (`useSteps.ts`)
+  - Utils: camelCase (`formatDate.ts`)
+  - Constants: UPPER_SNAKE_CASE (`MAX_WEEKLY_HEADINGS`)
+- **File Structure:** Group by feature, not by type
+- **Imports:** Absolute imports via `@/` alias
+
+# Development Methodology
+
+## Iterative TDD
+- **Red-Green-Refactor:** Write failing test → Implement minimum code → Pass test → Refactor
+- **Test First:** For new features, write the test BEFORE implementation
+- **Focus on Behavior:** Test what the component/function does, not how it does it
+
+## Ticket-Driven Development
+- **Every unit of work must have a ticket in `docs/tasks.md`**
+- **Ticket Format:**
+  ```markdown
+  ### [TICKET-ID] Title
+  **Status:** Not Started | In Progress | Completed | Blocked
+  **Priority:** P1 (Critical) | P2 (Important) | P3 (Nice-to-have)
+  **Estimate:** Small (<4h) | Medium (4-8h) | Large (>8h)
+  
+  **Description:**
+  Clear, actionable description
+  
+  **Acceptance Criteria:**
+  - [ ] Criterion 1
+  - [ ] Criterion 2
+  
+  **Technical Notes:**
+  Implementation details, edge cases
+  ```
+- **Update Status:** Mark tickets as "In Progress" when starting, "Completed" when done
+- **Reference Tickets:** In commit messages: `git commit -m "[TICKET-123] Implement feature"`
+
+## Documentation
+- **Docstrings:** Add JSDoc comments for exported functions, hooks, and components
+  ```typescript
+  /**
+   * Fetches today's tasks from Supabase
+   * @returns Array of steps scheduled for today
+   */
+  export function useTodaysSteps() { ... }
+  ```
+- **README:** Keep project README up-to-date with setup instructions
+- **Comments:** Use sparingly, only for non-obvious logic (e.g., complex calculations, workarounds)
+- **Self-Documenting Code:** Prefer clear naming over comments
+
+## Testing Standards
+
+### Test Structure
+- **Location:** `__tests__/` folder mirroring source structure
+- **Naming:** `ComponentName.test.tsx` or `functionName.test.ts`
+- **Docstrings:** Every test must include a description
+  ```typescript
+  it('should mark step as complete when user taps checkmark', () => {
+    // Test implementation
+  });
+  ```
+
+### Test Types
+1. **Unit Tests** (`__tests__/unit/`)
+   - Pure functions (utils, helpers)
+   - Custom hooks (with `renderHook`)
+   - Validation logic
+   - Target: 90%+ coverage
+
+2. **Component Tests** (`__tests__/components/`)
+   - User interactions (tap, swipe, type)
+   - Conditional rendering
+   - Integration with hooks
+   - Use `@testing-library/react-native`
+   - Target: Key user paths covered
+
+3. **Integration Tests** (`__tests__/integration/`)
+   - API calls with mocked Supabase
+   - React Query hooks
+   - Multi-component workflows
+   - Use MSW for API mocking
+
+4. **E2E Tests** (`.maestro/`)
+   - Critical user flows (auth, daily planning, kanban)
+   - Run before releases
+   - Visual flow testing
+
+### Running Tests
+```bash
+npm test              # Run all tests
+npm test -- --watch   # Watch mode
+npm test -- --coverage # With coverage report
+maestro test .maestro/ # E2E tests
+```
+
+# Context References
+**Agent: Read these ONLY when working on specific tasks**
+
+- **API Guidelines:** `.cursor/reference/api.md`
+- **Database Schema:** `.cursor/reference/database.md`
+- **UI Components:** `.cursor/reference/ui.md`
+
+# Design Principles
+
+## Code Quality
+- **DRY:** Extract reusable logic into hooks or utils
+- **SOLID:** Single responsibility, open/closed, dependency injection
+- **Immutability:** Use `const`, avoid mutations, prefer spreading
+- **Error Handling:** Always handle errors gracefully (especially network/database)
+- **TypeScript:** Leverage types for documentation and safety
+
+## UI/UX Principles (from PRD)
+- **Calm:** Low contrast, soft colors, no aggressive notifications
+- **Clarity:** Clear hierarchy, minimal cognitive load
+- **Consistency:** Reuse components, follow design system
+- **Offline-First:** UI updates instantly, sync in background
+- **Respectful:** No guilt-driven language, support interruptions
+
+## Performance
+- **Optimize Renders:** Use `React.memo`, `useMemo`, `useCallback` judiciously
+- **Lazy Loading:** Code-split routes with `expo-router`
+- **Image Optimization:** Use `expo-image` for caching
+- **List Performance:** Use `FlashList` for long lists (Kanban columns)
+
+# Git Workflow
+
+## Commits
+- **Format:** `[TICKET-123] Brief description`
+- **Scope:** Small, focused commits (one logical change)
+- **Message:** Imperative mood ("Add feature" not "Added feature")
+
+## Branches (when working in team)
+- `main` — Production-ready code
+- `develop` — Integration branch
+- `feature/TICKET-123-description` — Feature work
+- `fix/TICKET-123-description` — Bug fixes
+
+# Common Patterns
+
+## React Query Hook
+```typescript
+export function useSteps() {
+  return useQuery({
+    queryKey: ['steps'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('steps')
+        .select('*')
+        .order('order');
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+```
+
+## Zustand Store
+```typescript
+interface UIStore {
+  isModalOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+}
+
+export const useUIStore = create<UIStore>((set) => ({
+  isModalOpen: false,
+  openModal: () => set({ isModalOpen: true }),
+  closeModal: () => set({ isModalOpen: false }),
+}));
+```
+
+## Component Testing
+```typescript
+import { render, fireEvent } from '@testing-library/react-native';
+
+describe('StepCard', () => {
+  it('should call onComplete when checkmark is pressed', () => {
+    const onComplete = jest.fn();
+    const { getByTestId } = render(
+      <StepCard step={mockStep} onComplete={onComplete} />
+    );
+    
+    fireEvent.press(getByTestId('complete-button'));
+    expect(onComplete).toHaveBeenCalledWith(mockStep.id);
+  });
+});
+```
+
+# Reminders
+- **Direction first, speed second** — Align with TrueNorth's philosophy
+- **Test before you ship** — No untested code in production
+- **Document as you go** — Future you will thank present you
+- **Keep it simple** — Complexity is the enemy of calm
