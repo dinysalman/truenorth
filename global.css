@@ -1,0 +1,6 @@
+/* TrueNorth global styles - Tailwind directives.
+ * Imported in app/_layout.tsx so utilities are available app-wide.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

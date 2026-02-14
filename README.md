@@ -19,7 +19,7 @@ TrueNorth is a productivity system that prioritizes **direction before speed**. 
 
 - **Framework:** Expo (React Native) with TypeScript
 - **Routing:** expo-router (file-based)
-- **Styling:** NativeWind v4 (Tailwind syntax for React Native)
+- **Styling:** NativeWind v4 (Tailwind syntax for React Native) — see [Design Tokens](.cursor/reference/design-tokens.md)
 - **Backend:** Supabase (PostgreSQL, Auth, Realtime)
 - **State:** Zustand (UI), React Query (server state)
 - **Testing:** Jest + React Native Testing Library (unit/component), Maestro (E2E)
@@ -58,6 +58,16 @@ TrueNorth is a productivity system that prioritizes **direction before speed**. 
    npm run ios     # iOS Simulator
    npm run android # Android Emulator
    ```
+
+### NativeWind (Tailwind) and design tokens
+
+Styling uses **NativeWind v4** with Tailwind. Custom design tokens (colors, spacing, typography) are in `tailwind.config.js` and documented in [.cursor/reference/design-tokens.md](.cursor/reference/design-tokens.md).
+
+- Use the `className` prop with Tailwind classes: `className="flex-1 bg-softMist p-safe"`.
+- Brand colors: `bg-northBlue`, `text-compassGold`, `bg-softMist`, `bg-evergreen`.
+- Priority: `bg-priority1`, `bg-priority2`, `bg-priority3`.
+- Spacing: `p-safe`, `p-card`, `p-section`; radius: `rounded-card`, `rounded-button`.
+- After changing `tailwind.config.js`, restart with cache clear: `npx expo start --clear`.
 
 ## Project Structure
 
