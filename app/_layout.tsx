@@ -1,20 +1,22 @@
 import '../global.css';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { theme } from '../lib/theme';
+import { ThemeOverrideProvider } from '@/lib/ThemeOverrideContext';
+import { useTheme } from '@/lib/theme';
 
 /**
  * Root layout for TrueNorth application
  * Manages top-level navigation stack with screen groups for auth, tabs, focus, and settings
  */
-export default function RootLayout() {
+function RootLayoutContent() {
+  const { colors, isDark } = useTheme();
   return (
     <>
-      <StatusBar style="auto" />
+      <StatusBar style={isDark ? 'light' : 'dark'} />
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: theme.colors.background },
+          contentStyle: { backgroundColor: colors.background },
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -27,11 +29,19 @@ export default function RootLayout() {
             presentation: 'modal',
             headerShown: true,
             headerTitle: 'Settings',
-            headerStyle: { backgroundColor: theme.colors.primary },
-            headerTintColor: theme.colors.softMist,
+            headerStyle: { backgroundColor: colors.primary },
+            headerTintColor: colors.softMist,
           }}
         />
       </Stack>
     </>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeOverrideProvider>
+      <RootLayoutContent />
+    </ThemeOverrideProvider>
   );
 }

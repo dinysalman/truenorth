@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '@/lib/theme';
 
 /**
  * Personal Kanban - Task management board
@@ -30,10 +31,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
  * TODO: Add filters by tag
  */
 export default function KanbanScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView className="flex-1 bg-softMist" edges={['top']}>
+    <SafeAreaView className="flex-1" style={{ backgroundColor: colors.background }} edges={['top']}>
       <View className="flex-1 p-safe">
-        <Text className="text-3xl font-heading text-textPrimary">
+        <Text style={{ color: colors.textPrimary }} className="text-3xl font-heading">
           Personal Kanban
         </Text>
       </View>

@@ -1,6 +1,7 @@
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
+import { useTheme } from '@/lib/theme';
 
 /**
  * Today's Bearing - Home screen showing today's direction
@@ -23,41 +24,58 @@ import { Link } from 'expo-router';
  * TODO: Add calm, encouraging messages
  */
 export default function TodaysBearingScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView className="flex-1 bg-softMist" edges={['top']}>
+    <SafeAreaView className="flex-1" style={{ backgroundColor: colors.background }} edges={['top']}>
       <ScrollView className="flex-1">
         <View className="p-section">
-        <View className="bg-northBlue p-6 rounded-card shadow-card">
-          <Text className="text-compassGold text-2xl font-heading">
-            Today's Bearing
-          </Text>
-          <Text className="text-textSecondary text-base mt-2">
-            Direction before speed
-          </Text>
-        </View>
-
-        {/* Test Priority Colors */}
-        <View className="mt-4 space-y-2">
-          <View className="bg-priority1 p-4 rounded-button">
-            <Text className="text-white">Priority 1 - High</Text>
+          <View
+            className="p-6 rounded-card shadow-card"
+            style={{ backgroundColor: colors.primary }}
+          >
+            <Text style={{ color: colors.secondary }} className="text-2xl font-heading">
+              Today's Bearing
+            </Text>
+            <Text style={{ color: colors.textSecondary }} className="text-base mt-2">
+              Direction before speed
+            </Text>
           </View>
-          <View className="bg-priority2 p-4 rounded-button">
-            <Text className="text-white">Priority 2 - Medium</Text>
-          </View>
-          <View className="bg-priority3 p-4 rounded-button">
-            <Text className="text-white">Priority 3 - Low</Text>
-          </View>
-        </View>
 
-        <Text className="text-textSecondary text-base italic text-center mt-6">
-          One meaningful win at a time.
-        </Text>
+          {/* Test Priority Colors */}
+          <View className="mt-4 space-y-2">
+            <View
+              className="p-4 rounded-button"
+              style={{ backgroundColor: colors.priority1 }}
+            >
+              <Text className="text-white">Priority 1 - High</Text>
+            </View>
+            <View
+              className="p-4 rounded-button"
+              style={{ backgroundColor: colors.priority2 }}
+            >
+              <Text className="text-white">Priority 2 - Medium</Text>
+            </View>
+            <View
+              className="p-4 rounded-button"
+              style={{ backgroundColor: colors.priority3 }}
+            >
+              <Text className="text-white">Priority 3 - Low</Text>
+            </View>
+          </View>
 
-        <Link href="/settings" className="mt-8 items-center">
-          <Text className="text-compassGold text-base underline">
-            Settings
+          <Text
+            style={{ color: colors.textSecondary }}
+            className="text-base italic text-center mt-6"
+          >
+            One meaningful win at a time.
           </Text>
-        </Link>
+
+          <Link href="/settings" className="mt-8 items-center">
+            <Text style={{ color: colors.secondary }} className="text-base underline">
+              Settings
+            </Text>
+          </Link>
         </View>
       </ScrollView>
     </SafeAreaView>

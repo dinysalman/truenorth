@@ -1,5 +1,6 @@
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '@/lib/theme';
 
 /**
  * Weekly Planning - Weekly review and heading selection
@@ -20,10 +21,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
  * TODO: Add "Plan This Week" button to populate This Week column
  */
 export default function WeeklyPlanningScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView className="flex-1 bg-softMist" edges={['top']}>
+    <SafeAreaView className="flex-1" style={{ backgroundColor: colors.background }} edges={['top']}>
       <ScrollView className="flex-1 p-safe">
-        <Text className="text-3xl font-heading text-textPrimary">
+        <Text style={{ color: colors.textPrimary }} className="text-3xl font-heading">
           Weekly Planning
         </Text>
       </ScrollView>

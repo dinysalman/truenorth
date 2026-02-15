@@ -1,23 +1,24 @@
 import { Tabs } from 'expo-router';
 import { Text } from 'react-native';
-import { theme } from '../../lib/theme';
+import { useTheme } from '@/lib/theme';
 
 /**
  * Bottom tabs layout for main app navigation
  * Provides 4 main screens: Today's Bearing, Kanban, Weekly Planning, and Polaris Goals
  */
 export default function TabsLayout() {
+  const { colors } = useTheme();
   return (
     <Tabs
       screenOptions={{
         headerShown: true,
-        headerStyle: { backgroundColor: theme.colors.primary },
-        headerTintColor: theme.colors.softMist,
-        tabBarActiveTintColor: theme.colors.compassGold,
-        tabBarInactiveTintColor: theme.colors.textMuted,
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: colors.softMist,
+        tabBarActiveTintColor: colors.compassGold,
+        tabBarInactiveTintColor: colors.textMuted,
         tabBarStyle: {
-          backgroundColor: theme.colors.primary,
-          borderTopColor: theme.colors.tabBarBorder,
+          backgroundColor: colors.primary,
+          borderTopColor: colors.tabBarBorder,
         },
       }}
     >

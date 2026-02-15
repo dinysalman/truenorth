@@ -1,72 +1,103 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+} from 'react-native';
+import { useTheme } from '@/lib/theme';
+import { useThemeOverride, type ColorSchemeOverride } from '@/lib/ThemeOverrideContext';
+
+const OVERRIDE_LABELS: Record<ColorSchemeOverride, string> = {
+  light: 'Light',
+  dark: 'Dark',
+  null: 'System',
+};
 
 /**
  * Settings screen
- * 
- * TODO: Add user profile section
- * TODO: Add notification preferences
- * TODO: Add theme selection (light/dark)
- * TODO: Add data export/import
- * TODO: Add account management (logout, delete account)
- * TODO: Add app version and about section
- * TODO: Add link to help/documentation
+ * Includes theme toggle (Light / Dark / System) so you can preview both modes.
  */
 export default function SettingsScreen() {
-  const router = useRouter();
-  
+  const { colors, isDark } = useTheme();
+  const { override, setOverride } = useThemeOverride();
+
+  const cycleTheme = () => {
+    if (override === null) setOverride('light');
+    else if (override === 'light') setOverride('dark');
+    else setOverride(null);
+  };
+
+  const containerBg = { backgroundColor: colors.background };
+  const surfaceBg = { backgroundColor: colors.surface };
+  const sectionTitleColor = { color: colors.textSecondary };
+  const settingTextColor = { color: colors.textPrimary };
+  const themeValueColor = { color: colors.compassGold };
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, containerBg]}>
       <View style={styles.content}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Account</Text>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Profile</Text>
+          <Text style={[styles.sectionTitle, sectionTitleColor]}>Preferences</Text>
+          <Pressable
+            style={({ pressed }) => [
+              styles.settingItem,
+              surfaceBg,
+              pressed && styles.settingItemPressed,
+            ]}
+            onPress={cycleTheme}
+            accessibilityRole="button"
+            accessibilityLabel={`Appearance: ${OVERRIDE_LABELS[override]}. Tap to switch.`}
+          >
+            <Text style={[styles.settingText, settingTextColor]}>Appearance</Text>
+            <Text style={[styles.settingValue, themeValueColor]}>
+              {OVERRIDE_LABELS[override]}
+            </Text>
+          </Pressable>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Notifications</Text>
           </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Email & Password</Text>
-          </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Logout</Text>
-          </View>
-        </View>
-        
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Preferences</Text>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Notifications</Text>
-          </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Theme</Text>
-          </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Default Focus Duration</Text>
-          </View>
-        </View>
-        
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Data</Text>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Export Data</Text>
-          </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Import Data</Text>
-          </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Clear Cache</Text>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Default Focus Duration</Text>
           </View>
         </View>
-        
+
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Version 1.0.0</Text>
+          <Text style={[styles.sectionTitle, sectionTitleColor]}>Account</Text>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Profile</Text>
           </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Help & Documentation</Text>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Email & Password</Text>
           </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Privacy Policy</Text>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Logout</Text>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, sectionTitleColor]}>Data</Text>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Export Data</Text>
+          </View>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Import Data</Text>
+          </View>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Clear Cache</Text>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, sectionTitleColor]}>About</Text>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Version 1.0.0</Text>
+          </View>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Help & Documentation</Text>
+          </View>
+          <View style={[styles.settingItem, surfaceBg]}>
+            <Text style={[styles.settingText, settingTextColor]}>Privacy Policy</Text>
           </View>
         </View>
       </View>
@@ -77,7 +108,6 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F7FA',
   },
   content: {
     padding: 24,
@@ -88,19 +118,26 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#6B7280',
     textTransform: 'uppercase',
     letterSpacing: 1,
     marginBottom: 12,
   },
   settingItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 16,
-    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     marginBottom: 8,
   },
+  settingItemPressed: {
+    opacity: 0.8,
+  },
   settingText: {
     fontSize: 16,
-    color: '#1E2A38',
+  },
+  settingValue: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
