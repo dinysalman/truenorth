@@ -1,4 +1,5 @@
 import { View, Text, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /**
  * Polaris - Goals & Missions hierarchy
@@ -27,10 +28,12 @@ import { View, Text, ScrollView } from 'react-native';
  */
 export default function PolarisScreen() {
   return (
-    <ScrollView className="flex-1 bg-softMist p-safe">
-      <Text className="text-3xl font-heading text-textPrimary">
-        Polaris
-      </Text>
-    </ScrollView>
+    <SafeAreaView className="flex-1 bg-softMist" edges={['top']}>
+      <ScrollView className="flex-1 p-safe">
+        <Text className="text-3xl font-heading text-textPrimary">
+          Polaris
+        </Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

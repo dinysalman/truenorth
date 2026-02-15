@@ -1,6 +1,7 @@
 import '../global.css';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { theme } from '../lib/theme';
 
 /**
  * Root layout for TrueNorth application
@@ -13,22 +14,22 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: '#F5F7FA' }, // Soft Mist from design tokens
+          contentStyle: { backgroundColor: theme.colors.background },
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="focus" options={{ headerShown: false }} />
-        <Stack.Screen 
-          name="settings" 
-          options={{ 
+        <Stack.Screen
+          name="settings"
+          options={{
             presentation: 'modal',
             headerShown: true,
             headerTitle: 'Settings',
-            headerStyle: { backgroundColor: '#1E2A38' },
-            headerTintColor: '#F5F7FA',
-          }} 
+            headerStyle: { backgroundColor: theme.colors.primary },
+            headerTintColor: theme.colors.softMist,
+          }}
         />
       </Stack>
     </>

@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Text } from 'react-native';
+import { theme } from '../../lib/theme';
 
 /**
  * Bottom tabs layout for main app navigation
@@ -10,13 +11,13 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: true,
-        headerStyle: { backgroundColor: '#1E2A38' }, // Deep North Blue
-        headerTintColor: '#F5F7FA', // Soft Mist
-        tabBarActiveTintColor: '#D4A017', // Compass Gold
-        tabBarInactiveTintColor: '#9CA3AF', // Gray
-        tabBarStyle: { 
-          backgroundColor: '#1E2A38',
-          borderTopColor: '#374151',
+        headerStyle: { backgroundColor: theme.colors.primary },
+        headerTintColor: theme.colors.softMist,
+        tabBarActiveTintColor: theme.colors.compassGold,
+        tabBarInactiveTintColor: theme.colors.textMuted,
+        tabBarStyle: {
+          backgroundColor: theme.colors.primary,
+          borderTopColor: theme.colors.tabBarBorder,
         },
       }}
     >

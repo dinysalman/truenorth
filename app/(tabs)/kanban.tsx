@@ -1,4 +1,5 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /**
  * Personal Kanban - Task management board
@@ -30,10 +31,12 @@ import { View, Text, ScrollView } from 'react-native';
  */
 export default function KanbanScreen() {
   return (
-    <View className="flex-1 bg-softMist p-safe">
-      <Text className="text-3xl font-heading text-textPrimary">
-        Personal Kanban
-      </Text>
-    </View>
+    <SafeAreaView className="flex-1 bg-softMist" edges={['top']}>
+      <View className="flex-1 p-safe">
+        <Text className="text-3xl font-heading text-textPrimary">
+          Personal Kanban
+        </Text>
+      </View>
+    </SafeAreaView>
   );
 }

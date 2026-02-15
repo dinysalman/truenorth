@@ -1,4 +1,5 @@
 import { View, Text, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 
 /**
@@ -23,8 +24,9 @@ import { Link } from 'expo-router';
  */
 export default function TodaysBearingScreen() {
   return (
-    <ScrollView className="flex-1 bg-softMist">
-      <View className="p-section">
+    <SafeAreaView className="flex-1 bg-softMist" edges={['top']}>
+      <ScrollView className="flex-1">
+        <View className="p-section">
         <View className="bg-northBlue p-6 rounded-card shadow-card">
           <Text className="text-compassGold text-2xl font-heading">
             Today's Bearing
@@ -56,7 +58,8 @@ export default function TodaysBearingScreen() {
             Settings
           </Text>
         </Link>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
