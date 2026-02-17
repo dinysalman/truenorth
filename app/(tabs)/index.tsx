@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { useTheme } from '@/lib/theme';
+import { supabase } from '@/lib/supabase';
 
 /**
  * Today's Bearing - Home screen showing today's direction
@@ -25,6 +27,13 @@ import { useTheme } from '@/lib/theme';
  */
 export default function TodaysBearingScreen() {
   const { colors } = useTheme();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error && __DEV__) console.warn('Supabase session check:', error.message);
+      if (__DEV__ && !error) console.log('Supabase connected, session:', session ? 'signed in' : 'anonymous');
+    });
+  }, []);
 
   return (
     <SafeAreaView className="flex-1" style={{ backgroundColor: colors.background }} edges={['top']}>
