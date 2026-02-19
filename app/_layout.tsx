@@ -1,8 +1,20 @@
 import '../global.css';
+import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { ThemeOverrideProvider } from '@/lib/ThemeOverrideContext';
 import { useTheme } from '@/lib/theme';
+import {
+  createAppQueryClient,
+  createPersister,
+  persistOptions,
+  initializeOnlineManager,
+} from '@/lib/api/queryClient';
+import { NetworkStatusIndicator } from '@/components/system/NetworkStatusIndicator';
+
+const queryClient = createAppQueryClient();
+const persister = createPersister();
 
 /**
  * Root layout for TrueNorth application
@@ -10,9 +22,15 @@ import { useTheme } from '@/lib/theme';
  */
 function RootLayoutContent() {
   const { colors, isDark } = useTheme();
+
+  useEffect(() => {
+    initializeOnlineManager();
+  }, []);
+
   return (
     <>
       <StatusBar style={isDark ? 'light' : 'dark'} />
+      <NetworkStatusIndicator />
       <Stack
         screenOptions={{
           headerShown: false,
@@ -41,7 +59,15 @@ function RootLayoutContent() {
 export default function RootLayout() {
   return (
     <ThemeOverrideProvider>
-      <RootLayoutContent />
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ ...persistOptions, persister }}
+        onSuccess={() => {
+          queryClient.resumePausedMutations();
+        }}
+      >
+        <RootLayoutContent />
+      </PersistQueryClientProvider>
     </ThemeOverrideProvider>
   );
 }
