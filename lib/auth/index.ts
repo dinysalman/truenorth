@@ -1,2 +1,3 @@
 /** Authentication (Supabase Auth, session). */
-export {};
+export { useAuth } from './useAuth';
+export type { UseAuthReturn } from './useAuth';
