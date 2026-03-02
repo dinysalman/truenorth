@@ -9,6 +9,10 @@ import type { ColorScheme } from '@/lib/theme';
 /** Light palette. */
 export const colorsLight = {
   northBlue: '#2D3F52',
+  /** Light blue from guide character's robe – True Step card, calm surfaces. */
+  robeBlue: '#A2C4E1',
+  /** Deep North Blue (PRD) – primary buttons, high-contrast text. */
+  deepNorthBlue: '#1E2A38',
   compassGold: '#D4A017',
   softMist: '#F5F7FA',
   evergreen: '#2E7D32',
@@ -29,6 +33,8 @@ export const colorsLight = {
 /** Dark palette. */
 export const colorsDark = {
   northBlue: '#5B7A9E',
+  robeBlue: '#7BA3C4',
+  deepNorthBlue: '#2A3A4A',
   compassGold: '#E4B84A',
   softMist: '#1A1D21',
   evergreen: '#4CAF50',
@@ -50,7 +56,7 @@ export type Colors = typeof colorsLight;
 
 /** Returns the color set for the given scheme. */
 export function getColors(scheme: ColorScheme): Colors {
-  return scheme === 'dark' ? colorsDark : colorsLight;
+  return (scheme === 'dark' ? colorsDark : colorsLight) as Colors;
 }
 
 /** Light colors (default export for non–scheme-aware usage). */

@@ -3,32 +3,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/lib/theme';
 
 /**
- * Personal Kanban - Task management board
+ * Steps – manage tasks between Today, This week, and Horizon.
  *
- * Columns:
- * - Horizon (Inbox / GTD capture)
- * - This Week
- * - Today (prepared the night before)
- * - Done
+ * Product note (docs/ui-product-notes.md): No kanban columns on phone.
+ * Single "This week" view:
+ * - Top: list of tasks for this week; each has actions "Move to Today" | "Move to Horizon".
+ * - Bottom: list of tasks from the week that are Done; each has "Move back to Today".
  *
- * Each Step includes:
- * - Title
- * - Priority (1 / 2 / 3)
- * - Max time (Parkinson's Law)
- * - Linked North Star / Goal
- * - Tag (Work, Family, Health, Learning, YouTube)
+ * Columns (data model): Horizon, This week, Today, Done — but UI is two lists
+ * (this week + done this week) with move actions, not column switcher.
  *
- * Rules:
- * - Max 1 Priority-1 per day
- * - Soft limits on Today and This Week
- * - Drag & drop between columns
- *
- * TODO: Implement horizontal scrolling for columns
- * TODO: Fetch steps from database grouped by status
- * TODO: Add drag & drop functionality
- * TODO: Add step creation button
- * TODO: Implement step detail modal
- * TODO: Add filters by tag
+ * TODO: Fetch steps from database (this week + done this week)
+ * TODO: Two-list layout: this week (top), done this week (bottom)
+ * TODO: Per-task actions: Move to Today, Move to Horizon (top list); Move back to Today (bottom list)
+ * TODO: Add step creation (e.g. into Horizon or This week)
  */
 export default function KanbanScreen() {
   const { colors } = useTheme();
