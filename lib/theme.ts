@@ -15,6 +15,8 @@ export type ColorScheme = 'light' | 'dark' | null | undefined;
 export const themeLight = {
   colors: {
     northBlue: '#2D3F52',
+    robeBlue: '#A2C4E1',
+    deepNorthBlue: '#1E2A38',
     compassGold: '#D4A017',
     softMist: '#F5F7FA',
     evergreen: '#2E7D32',
@@ -36,6 +38,8 @@ export const themeLight = {
 export const themeDark = {
   colors: {
     northBlue: '#5B7A9E',
+    robeBlue: '#7BA3C4',
+    deepNorthBlue: '#2A3A4A',
     compassGold: '#E4B84A',
     softMist: '#1A1D21',
     evergreen: '#4CAF50',

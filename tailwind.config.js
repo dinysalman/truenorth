@@ -15,12 +15,16 @@ module.exports = {
       colors: {
         // Brand (light) – northBlue slightly brighter for readability
         northBlue: '#2D3F52',
+        robeBlue: '#A2C4E1',
+        deepNorthBlue: '#1E2A38',
         compassGold: '#D4A017',
         softMist: '#F5F7FA',
         evergreen: '#2E7D32',
 
         // Brand (dark mode) – use with dark: prefix
         northBlueDark: '#5B7A9E',
+        robeBlueDark: '#7BA3C4',
+        deepNorthBlueDark: '#2A3A4A',
         compassGoldDark: '#E4B84A',
         softMistDark: '#1A1D21',
         evergreenDark: '#4CAF50',

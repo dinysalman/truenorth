@@ -1,10 +1,10 @@
 import { Tabs } from 'expo-router';
-import { Text } from 'react-native';
 import { useTheme } from '@/lib/theme';
+import { Compass, List, Zap, Target } from 'lucide-react-native';
 
 /**
- * Bottom tabs layout for main app navigation
- * Provides 4 main screens: Today's Bearing, Kanban, Weekly Planning, and Polaris Goals
+ * Bottom tabs layout for main app navigation.
+ * Tabs: Heading (Today), Steps, Review & Plan, Polaris – 4 tabs with Lucide icons.
  */
 export default function TabsLayout() {
   const { colors } = useTheme();
@@ -20,42 +20,39 @@ export default function TabsLayout() {
           backgroundColor: colors.primary,
           borderTopColor: colors.tabBarBorder,
         },
+        tabBarLabelStyle: { fontSize: 10, fontWeight: '600', textTransform: 'uppercase' },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Today",
-          tabBarIcon: ({ color }) => (
-            <Text style={{ fontSize: 24 }}>📍</Text>
-          ),
+          title: 'Today',
+          tabBarLabel: 'Heading',
+          tabBarIcon: ({ color, focused }) => <Compass size={24} color={color} strokeWidth={focused ? 2.5 : 2} />,
         }}
       />
       <Tabs.Screen
         name="kanban"
         options={{
-          title: "Kanban",
-          tabBarIcon: ({ color }) => (
-            <Text style={{ fontSize: 24 }}>📋</Text>
-          ),
+          title: 'Steps',
+          tabBarLabel: 'Steps',
+          tabBarIcon: ({ color, focused }) => <List size={24} color={color} strokeWidth={focused ? 2.5 : 2} />,
         }}
       />
       <Tabs.Screen
         name="weekly"
         options={{
-          title: "Weekly",
-          tabBarIcon: ({ color }) => (
-            <Text style={{ fontSize: 24 }}>📅</Text>
-          ),
+          title: 'Review & Plan',
+          tabBarLabel: 'Review & Plan',
+          tabBarIcon: ({ color, focused }) => <Zap size={24} color={color} strokeWidth={focused ? 2.5 : 2} />,
         }}
       />
       <Tabs.Screen
         name="polaris"
         options={{
-          title: "Polaris",
-          tabBarIcon: ({ color }) => (
-            <Text style={{ fontSize: 24 }}>⭐</Text>
-          ),
+          title: 'Polaris',
+          tabBarLabel: 'Polaris',
+          tabBarIcon: ({ color, focused }) => <Target size={24} color={color} strokeWidth={focused ? 2.5 : 2} />,
         }}
       />
     </Tabs>

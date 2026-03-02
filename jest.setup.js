@@ -40,6 +40,13 @@ try {
   console.warn('MSW server could not be loaded:', error.message);
 }
 
+// Stub RN internal that uses `const T` Flow generics the Hermes parser can't handle
+jest.mock('react-native/Libraries/NativeComponent/ViewConfigIgnore', () => ({
+  DynamicallyInjectedByGestureHandler: (v) => v,
+  ConditionallyIgnoredEventHandlers: (v) => v,
+  isIgnored: () => false,
+}));
+
 // Mock react-native-reanimated to avoid "Reanimated 2 failed to create a worklet" errors
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');
@@ -47,14 +54,15 @@ jest.mock('react-native-reanimated', () => {
   return Reanimated;
 });
 
-// Mock expo-router navigation functions
+// Mock expo-router navigation functions (stable router object so mocks can be asserted)
+const mockRouter = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  back: jest.fn(),
+  canGoBack: jest.fn(() => true),
+};
 jest.mock('expo-router', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    replace: jest.fn(),
-    back: jest.fn(),
-    canGoBack: jest.fn(() => true),
-  }),
+  useRouter: () => mockRouter,
   useSegments: () => [],
   usePathname: () => '/',
   Link: 'Link',
@@ -96,6 +104,8 @@ jest.mock('@/lib/theme', () => ({
   useTheme: () => ({
     colors: {
       northBlue: '#2D3F52',
+      robeBlue: '#A2C4E1',
+      deepNorthBlue: '#1E2A38',
       compassGold: '#D4A017',
       softMist: '#F5F7FA',
       evergreen: '#2E7D32',
@@ -116,6 +126,8 @@ jest.mock('@/lib/theme', () => ({
   themeLight: {
     colors: {
       northBlue: '#2D3F52',
+      robeBlue: '#A2C4E1',
+      deepNorthBlue: '#1E2A38',
       compassGold: '#D4A017',
       softMist: '#F5F7FA',
       evergreen: '#2E7D32',
@@ -135,6 +147,8 @@ jest.mock('@/lib/theme', () => ({
   themeDark: {
     colors: {
       northBlue: '#5B7A9E',
+      robeBlue: '#7BA3C4',
+      deepNorthBlue: '#2A3A4A',
       compassGold: '#E4B84A',
       softMist: '#1A1D21',
       evergreen: '#4CAF50',
